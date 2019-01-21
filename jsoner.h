@@ -565,12 +565,16 @@ struct Obj: prop{
 
     JType Type(){ return JType::Object; }
 
-    std::vector<prop*>::iterator begin(){
+    std::vector<prop*>::iterator begin() {
         return props.begin();
     }
 
-    std::vector<prop*>::iterator end(){
+    std::vector<prop*>::iterator end() {
         return props.end();
+    }
+
+    size_t size() const {
+        return props.size();
     }
 
     std::vector<prop*> props;
@@ -883,9 +887,16 @@ struct Jiter{
         return it!=op2.it;
     }
 
+    Obj* getObj(){
+        return dynamic_cast<Obj*>(*it);
+    }
+
+    bool isNull(){
+        return (*it)==nullptr;
+    }
+
 private:
     std::vector<prop*>::iterator it;
-    prop* ptr{nullptr};
 };
 
 } //JSON namespace

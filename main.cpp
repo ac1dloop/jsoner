@@ -12,8 +12,6 @@ using namespace std;
 
 using namespace J;
 
-typedef std::vector<prop*>::iterator Jiterator;
-
 int main(int argc, char **argv)
 {
     fstream in;
@@ -41,18 +39,25 @@ int main(int argc, char **argv)
 
     test.Parse(line);
 
-    for (Jiterator it=test.begin();it!=test.end();++it){
-        prop* ptr=*it;
+    for (Jiter it=test.begin();it!=test.end();++it){
+        if (it->Type()==JType::Object){
+            cout << "Object: " << it->Name() << endl;
 
-        if (ptr->Type()==JType::Object){
-            cout << "Object name: " << ptr->Name() << endl;
-            cout << "Properties" << endl;
+            Jiter inner=(it.getObj())->begin();
 
-            Obj* optr=dynamic_cast<Obj*>(ptr);
-            for (Jiterator it2=optr->begin();it2!=optr->end();++it2){
-                prop* iptr=*it2;
+            if (inner.isNull()){
+                cout << "fucked up shit" << endl;
+                break;
+            }
 
-                cout << iptr->Name() << " " << iptr->getStr() << endl;
+            for (;inner!=(it.getObj())->end();++inner){
+                cout << inner->Name() << " : ";
+
+                try {
+                    cout << inner->getStr() << endl;
+                } catch (...){
+                    cout << "Not a string property" << endl;
+                }
             }
         }
     }
