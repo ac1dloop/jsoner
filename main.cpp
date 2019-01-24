@@ -39,28 +39,7 @@ int main(int argc, char **argv)
 
     test.Parse(line);
 
-    for (Jiter it=test.begin();it!=test.end();++it){
-        if (it->Type()==JType::Object){
-            cout << "Object: " << it->Name() << endl;
-
-            Jiter inner=(it.getObj())->begin();
-
-            if (inner.isNull()){
-                cout << "fucked up shit" << endl;
-                break;
-            }
-
-            for (;inner!=(it.getObj())->end();++inner){
-                cout << inner->Name() << " : ";
-
-                try {
-                    cout << inner->getStr() << endl;
-                } catch (...){
-                    cout << "Not a string property" << endl;
-                }
-            }
-        }
-    }
+    cout << test.toStr() << endl;
 
     return 0;
 }
